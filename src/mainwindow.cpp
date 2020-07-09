@@ -166,6 +166,10 @@ void MainWindow::init()
     connect(&dataSender, &DataSender::isStarted,
             this, &MainWindow::getStartedFlag);
 
+
+    //Кнопки сбор/разбор
+    connect(ui->build_schemes, &QPushButton::released, this, &MainWindow::buildButtonRelease);
+    connect(ui->destroy_schemes, &QPushButton::released,this, &MainWindow::destroyButtonRelease);
     is_close_event = false;
 }
 
@@ -465,6 +469,46 @@ void MainWindow::sendButtonRelease()
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+void MainWindow::buildButtonRelease()
+{
+    static bool flagChecked = false;
+    if (!master->isConnected())
+    {
+        printMsg("ERROR: Device is not connected");
+        return;
+    }
+    sendCoil(7,flagChecked);
+    if(flagChecked)
+    {
+        ui->build_schemes->setText("Собрать схему(on)");
+    }
+    else
+    {
+        ui->build_schemes->setText("Собрать схему(off)");
+    }
+}
+
+void MainWindow::destroyButtonRelease()
+{
+    static bool flagChecked = false;
+    if (!master->isConnected())
+    {
+        printMsg("ERROR: Device is not connected");
+        return;
+    }
+    sendCoil(8,flagChecked);
+    if(flagChecked)
+    {
+        ui->destroy_schemes->setText("Разобрать схему(on)");
+    }
+    else
+    {
+        ui->destroy_schemes->setText("Разобрать схему(off)");
+    }
+}
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void MainWindow::onSlaveAnswer(answer_request_t answer)
 {
     if (getRequestType(answer.func) == REQ_READ)
@@ -566,3 +610,133 @@ void MainWindow::getStartedFlag(bool *started)
     *started = is_send_started;
 }
 
+void MainWindow::sendCoil(int num, bool &flag)
+{
+    // Check connection state
+    if (!master->isConnected())
+    {
+        printMsg("ERROR: Device is not connected");
+        return;
+    }
+
+    // Check sender thread state
+    if (!threadCyclicSend.isRunning())
+    {
+        // Set started flag
+        is_send_started = true;
+
+        abstract_request_t tmp;
+        tmp.id = 1;
+        tmp.address = num;
+        tmp.func = QModbusPdu::WriteSingleCoil;
+        tmp.count = 1;
+        if(flag == false)
+        {
+            tmp.data[0] = 1;
+            flag = true;
+        }
+        else
+        {
+            tmp.data[0] = 0;
+            flag = false;
+        }
+        // Init data sender
+        dataSender.init(false, ui->sbSendInterval->value(), tmp);
+
+        // Move data sender to thread
+        dataSender.moveToThread(&threadCyclicSend);
+
+        // Connect start signal with thread function
+        connect(&threadCyclicSend, &QThread::started,
+                &dataSender, &DataSender::cyclicDataSend);
+
+        // Start sender thread
+        threadCyclicSend.start();
+
+        // Mark button as stop button
+        ui->bSend->setText("Stop");
+    }
+    else
+    {
+        // Reset started flag
+        is_send_started = false;
+    }
+}
+
+void MainWindow::on_dist_contr_released()
+{
+    static bool flagChecked = false;
+    if (!master->isConnected())
+    {
+        printMsg("ERROR: Device is not connected");
+        return;
+    }
+    sendCoil(5,flagChecked);
+    if(flagChecked)
+    {
+        ui->dist_contr->setText("Дистанционное упр(on)");
+    }
+    else
+    {
+        ui->dist_contr->setText("Дистанционное упр(off)");
+    }
+}
+
+void MainWindow::on_local_ctrl_released()
+{
+    static bool flagChecked = false;
+     if (!master->isConnected())
+     {
+         printMsg("ERROR: Device is not connected");
+         return;
+     }
+     sendCoil(6,flagChecked);
+     if(flagChecked)
+     {
+         ui->local_ctrl->setText("Местн упр(on)");
+     }
+     else
+     {
+         ui->local_ctrl->setText("Местн упр(off)");
+     }
+
+}
+
+void MainWindow::on_start_released()
+{
+
+    static bool flagChecked = false;
+    if (!master->isConnected())
+    {
+         printMsg("ERROR: Device is not connected");
+         return;
+    }
+        sendCoil(9,flagChecked);
+        if(flagChecked)
+    {
+         ui->start->setText("Старт(on)");
+    }
+    else
+    {
+        ui->start->setText("Старт(off)");
+    }
+}
+
+void MainWindow::on_stop_released()
+{
+    static bool flagChecked = false;
+    if (!master->isConnected())
+    {
+         printMsg("ERROR: Device is not connected");
+         return;
+    }
+        sendCoil(10,flagChecked);
+        if(flagChecked)
+    {
+         ui->stop->setText("Стоп(on)");
+    }
+    else
+    {
+        ui->stop->setText("Стоп(off)");
+    }
+}

@@ -543,6 +543,84 @@
      <string>ms</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="build_schemes">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>10</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Построить схему</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="destroy_schemes">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>30</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Разобрать схему</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="dist_contr">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>10</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Дистанционное упр(off)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="local_ctrl">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>30</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Местн упр(off)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stop">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>130</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Стоп(off)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="start">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>110</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Старт(off)</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -550,7 +628,7 @@
      <x>0</x>
      <y>0</y>
      <width>1041</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

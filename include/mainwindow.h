@@ -93,6 +93,7 @@ private:
 
     /// Flag of close window event
     bool is_close_event;
+    void sendCoil(int num, bool &flag);
 
 signals:
 
@@ -142,6 +143,14 @@ private slots:
 
     /// Send started flag to data sender
     void getStartedFlag(bool *started);
+
+    // отправка сборки схемы
+    void buildButtonRelease();
+    void destroyButtonRelease();
+    void on_dist_contr_released();
+    void on_local_ctrl_released();
+    void on_start_released();
+    void on_stop_released();
 };
 
 #endif // MAINWINDOW_H
