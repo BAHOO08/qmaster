@@ -477,7 +477,7 @@ void MainWindow::buildButtonRelease()
         printMsg("ERROR: Device is not connected");
         return;
     }
-    sendCoil(7,flagChecked);
+    sendCoil(8,flagChecked);
     if(flagChecked)
     {
         ui->build_schemes->setText("Собрать схему(on)");
@@ -496,7 +496,7 @@ void MainWindow::destroyButtonRelease()
         printMsg("ERROR: Device is not connected");
         return;
     }
-    sendCoil(8,flagChecked);
+    sendCoil(7,flagChecked);
     if(flagChecked)
     {
         ui->destroy_schemes->setText("Разобрать схему(on)");
@@ -730,8 +730,8 @@ void MainWindow::on_stop_released()
          printMsg("ERROR: Device is not connected");
          return;
     }
-        sendCoil(10,flagChecked);
-        if(flagChecked)
+    sendCoil(10,flagChecked);
+    if(flagChecked)
     {
          ui->stop->setText("Стоп(on)");
     }
@@ -739,4 +739,16 @@ void MainWindow::on_stop_released()
     {
         ui->stop->setText("Стоп(off)");
     }
+}
+
+void MainWindow::on_kvitirovanie_released()
+{
+    bool flagChecked = false;
+    if (!master->isConnected())
+    {
+         printMsg("ERROR: Device is not connected");
+         return;
+    }
+
+    sendCoil(11,flagChecked);
 }

@@ -151,6 +151,7 @@ private slots:
     void on_local_ctrl_released();
     void on_start_released();
     void on_stop_released();
+    void on_kvitirovanie_released();
 };
 
 #endif // MAINWINDOW_H
