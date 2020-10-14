@@ -170,7 +170,15 @@ void MainWindow::init()
     //Кнопки сбор/разбор
     connect(ui->build_schemes, &QPushButton::released, this, &MainWindow::buildButtonRelease);
     connect(ui->destroy_schemes, &QPushButton::released,this, &MainWindow::destroyButtonRelease);
+    // Setup timer, for update ports list
+    updateDats = new QTimer(this);
+
+    connect(updateDats, &QTimer::timeout,
+            this, &MainWindow::updateData);
+   // connect(&dataSender,&DataSender::index_inc,this,&MainWindow::index_inc_realise);
+    updateDats->start(100);
     is_close_event = false;
+    index = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -518,6 +526,15 @@ void MainWindow::onSlaveAnswer(answer_request_t answer)
         {
             ui->tableData->setItem(i, TAB_DATA,
                                    new QTableWidgetItem(QString::number(answer.data[i])));
+
+            if(index == 0)
+            {
+                ui->speed_val->setText(QString::number(answer.data[i]));
+            }
+            if(index == 1)
+            {
+                ui->power_val_2->setText(QString::number(answer.data[i]));
+            }
         }
     }
 
@@ -622,6 +639,7 @@ void MainWindow::sendCoil(int num, bool &flag)
     // Check sender thread state
     if (!threadCyclicSend.isRunning())
     {
+
         // Set started flag
         is_send_started = true;
 
@@ -655,6 +673,56 @@ void MainWindow::sendCoil(int num, bool &flag)
 
         // Mark button as stop button
         ui->bSend->setText("Stop");
+
+
+    }
+    else
+    {
+        // Reset started flag
+        is_send_started = false;
+    }
+}
+
+
+void MainWindow::sendHolding(int num, int data)
+{
+    // Check connection state
+    if (!master->isConnected())
+    {
+        printMsg("ERROR: Device is not connected");
+        return;
+    }
+
+    // Check sender thread state
+    if (!threadCyclicSend.isRunning())
+    {
+
+        // Set started flag
+        is_send_started = true;
+
+        abstract_request_t tmp;
+        tmp.id = 1;
+        tmp.address = num;
+        tmp.func = QModbusPdu::WriteSingleRegister;
+        tmp.count = 1;
+        tmp.data[0] = data;
+        // Init data sender
+        dataSender.init(false, ui->sbSendInterval->value(), tmp);
+
+        // Move data sender to thread
+        dataSender.moveToThread(&threadCyclicSend);
+
+        // Connect start signal with thread function
+        connect(&threadCyclicSend, &QThread::started,
+                &dataSender, &DataSender::cyclicDataSend);
+
+        // Start sender thread
+        threadCyclicSend.start();
+
+        // Mark button as stop button
+        ui->bSend->setText("Stop");
+
+
     }
     else
     {
@@ -751,4 +819,128 @@ void MainWindow::on_kvitirovanie_released()
     }
 
     sendCoil(11,flagChecked);
+}
+
+void MainWindow::updateData()
+{
+
+
+    // Check connection state
+ /*   if (!master->isConnected())
+    {
+        printMsg("ERROR: Device is not connected");
+        return;
+    }
+
+    // Check sender thread state
+    if (!threadCyclicSend.isRunning())
+    {
+        // Set started flag
+        is_send_started = true;
+
+        abstract_request_t tmp;
+        tmp.id = 1;
+        tmp.address = index;
+        tmp.func = QModbusPdu::ReadHoldingRegisters;
+        tmp.count = 2;
+
+        // Init data sender
+        dataSender.init(false, ui->sbSendInterval->value(), tmp);
+
+        // Move data sender to thread
+        dataSender.moveToThread(&threadCyclicSend);
+
+        // Connect start signal with thread function
+        connect(&threadCyclicSend, &QThread::started,
+                &dataSender, &DataSender::cyclicDataSend);
+
+        // Start sender thread
+        threadCyclicSend.start();
+
+        //ui->speed_val->setText(QString::number())
+        // Mark button as stop button
+        ui->bSend->setText("Stop");
+    }
+    else
+    {
+        // Reset started flag
+        is_send_started = false;
+    }*/
+
+ /*   if(threadCyclicSend.isRunning())
+    {
+       QThread::msleep(500);
+       is_send_started = false;
+    }
+    // Check sender thread state
+    if (!threadCyclicSend.isRunning())
+    {
+        // Set started flag
+        is_send_started = true;
+
+        abstract_request_t tmp;
+        tmp.id = 1;
+        tmp.address = 5;
+        tmp.func = QModbusPdu::ReadHoldingRegisters;
+        tmp.count = 5;
+        // Init data sender
+        dataSender.init(false, ui->sbSendInterval->value(), tmp);
+
+        // Move data sender to thread
+        dataSender.moveToThread(&threadCyclicSend);
+
+        // Connect start signal with thread function
+        connect(&threadCyclicSend, &QThread::started,
+                &dataSender, &DataSender::cyclicDataSend);
+
+        // Start sender thread
+        threadCyclicSend.start();
+
+        //ui->speed_val->setText(QString::number())
+        // Mark button as stop button
+        ui->bSend->setText("Stop");
+    }
+    else
+    {
+        // Reset started flag
+        is_send_started = false;
+    }*/
+    /*++index;
+    if(index == 50)
+    {
+        index = 0;
+    }*/
+}
+
+void MainWindow::on_update_dat_released()
+{
+    //sendRequest()
+    abstract_request_t request;
+    request.id = 1;
+    request.func = QModbusPdu::ReadHoldingRegisters;
+    request.count = 1;
+    dataSender.init(false, ui->sbSendInterval->value(), request);
+    //sendMasterRequest(&request);
+    dataSender.cyclicDataSend();
+}
+/*
+void MainWindow::index_inc_realise()
+{
+    index++;
+    if(index == 50)
+    {
+        index = 0;
+    }
+    ui->sbAddress->setValue(index);
+}
+*/
+
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    ui->seted_speed->setText(QString::number(/*ui->horizontalSlider.g)*/value));
+}
+
+void MainWindow::on_set_new_speed_released()
+{
+    sendHolding(4,ui->horizontalSlider->value());
 }

@@ -46,7 +46,7 @@ signals:
     void sendMasterRequest(abstract_request_t *request);
 
     void quit();
-
+    void index_inc();
     ///
     void isStarted(bool *started);
 

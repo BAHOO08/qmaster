@@ -47,8 +47,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
 
+private:
     /// Initialization
     void init();
 
@@ -94,7 +94,10 @@ private:
     /// Flag of close window event
     bool is_close_event;
     void sendCoil(int num, bool &flag);
+    void sendHolding(int num, int data);
 
+    QTimer *updateDats;
+int index;
 signals:
 
     /// Send request from master to slave
@@ -145,6 +148,8 @@ private slots:
     void getStartedFlag(bool *started);
 
     // отправка сборки схемы
+    void updateData();
+
     void buildButtonRelease();
     void destroyButtonRelease();
     void on_dist_contr_released();
@@ -152,6 +157,10 @@ private slots:
     void on_start_released();
     void on_stop_released();
     void on_kvitirovanie_released();
+    void on_update_dat_released();
+   // void index_inc_realise();
+    void on_horizontalSlider_valueChanged(int value);
+    void on_set_new_speed_released();
 };
 
 #endif // MAINWINDOW_H
