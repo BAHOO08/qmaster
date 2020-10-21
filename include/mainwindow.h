@@ -47,7 +47,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-
+    enum DATAS_READ_HZ
+    {
+        DI,
+        AI,
+        DI_ERROR
+    };
 private:
     /// Initialization
     void init();
@@ -94,8 +99,10 @@ private:
     /// Flag of close window event
     bool is_close_event;
     void sendCoil(int num, bool &flag);
+    void readHolding(int num,int count, DATAS_READ_HZ numCmd);
     void sendHolding(int num, int data);
 
+    DATAS_READ_HZ _numCmd;
     QTimer *updateDats;
 int index;
 signals:
@@ -161,6 +168,25 @@ private slots:
    // void index_inc_realise();
     void on_horizontalSlider_valueChanged(int value);
     void on_set_new_speed_released();
+    void on_checkBox_DO1_clicked(bool checked);
+    void on_checkBox_DO2_clicked(bool checked);
+    void on_checkBox_DO3_clicked(bool checked);
+    void on_checkBox_DO4_clicked(bool checked);
+    void on_checkBox_DO5_clicked(bool checked);
+    void on_checkBox_DO6_clicked(bool checked);
+    void on_checkBox_DO7_clicked(bool checked);
+    void on_checkBox_DO8_clicked(bool checked);
+    void on_pushButton_readDI_released();
+    void on_pushButton_readAI_released();
+    void on_pushButton_pwm1_released();
+    void on_pushButton_pwm2_released();
+    void on_pushButton_pwm3_released();
+    void on_pushButton_pwm4_released();
+    void on_horizontalSlider_PWM1_sliderReleased();
+    void on_horizontalSlider_PWM2_sliderReleased();
+    void on_horizontalSlider_PWM3_sliderReleased();
+    void on_horizontalSlider_PWM4_sliderReleased();
+    void on_pushButton_released();
 };
 
 #endif // MAINWINDOW_H

@@ -15,7 +15,7 @@
 
 #include    "mainwindow.h"
 #include    "ui_mainwindow.h"
-
+#include <QDebug>
 #include    <QtSerialPort/QSerialPortInfo>
 #include    <QString>
 #include    <QHeaderView>
@@ -26,7 +26,7 @@
 #include    <QPlainTextEdit>
 #include    <QTimer>
 #include    <QCheckBox>
-
+#include    <QStyleFactory>
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -53,6 +53,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    qApp->setStyle(QStyleFactory::create("Fusion"));
+    QPalette p = qApp->palette();
+    p.setColor(QPalette::Window, QColor(53,53,53));
+    p.setColor(QPalette::Button, QColor(53,53,53));
+    p.setColor(QPalette::Highlight, QColor(142,45,197));
+    p.setColor(QPalette::ButtonText, QColor(255,255,255));
+    p.setColor(QPalette::WindowText, QColor(255,255,255));
+    qApp->setPalette(p);
+
 
     init();   
 }
@@ -168,8 +178,8 @@ void MainWindow::init()
 
 
     //Кнопки сбор/разбор
-    connect(ui->build_schemes, &QPushButton::released, this, &MainWindow::buildButtonRelease);
-    connect(ui->destroy_schemes, &QPushButton::released,this, &MainWindow::destroyButtonRelease);
+    //connect(ui->build_schemes, &QPushButton::released, this, &MainWindow::buildButtonRelease);
+  //  connect(ui->destroy_schemes, &QPushButton::released,this, &MainWindow::destroyButtonRelease);
     // Setup timer, for update ports list
     updateDats = new QTimer(this);
 
@@ -179,6 +189,47 @@ void MainWindow::init()
     updateDats->start(100);
     is_close_event = false;
     index = 0;
+
+    ///Прячем ненужное
+    ui->cbParity->hide();
+    ui->label_5->hide();
+
+    ui->cbStopBits->hide();
+    ui->label_4->hide();
+
+
+    ui->cbDataBits->hide();
+    ui->label_3->hide();
+
+    ui->cbBaud->hide();
+    ui->label_2->hide();
+
+    
+    ui->bSend->hide();
+
+    ui->sbCount->hide();
+    ui->slaveID_4->hide();
+
+    ui->sbAddress->hide();
+    ui->slaveID_3->hide();
+
+    
+    ui->cbFunc->hide();
+    ui->slaveID_2->hide();
+
+    ui->sbSlaveID->hide();
+    ui->lSlaveID->hide();
+
+    
+    ui->label_7->hide();
+    ui->cCyclicSend->hide();
+    ui->sbSendInterval->hide();
+    ui->slaveID_5->hide();
+    ui->tableData->hide();
+    ui->ptRawData->hide();
+    ui->bRawDataClean->hide();
+    ui->label_6->hide();
+    //sizePolicy().Maximum
 }
 
 //------------------------------------------------------------------------------
@@ -488,11 +539,11 @@ void MainWindow::buildButtonRelease()
     sendCoil(8,flagChecked);
     if(flagChecked)
     {
-        ui->build_schemes->setText("Собрать схему(on)");
+        //ui->build_schemes->setText("Собрать схему(on)");
     }
     else
     {
-        ui->build_schemes->setText("Собрать схему(off)");
+       // ui->build_schemes->setText("Собрать схему(off)");
     }
 }
 
@@ -507,11 +558,11 @@ void MainWindow::destroyButtonRelease()
     sendCoil(7,flagChecked);
     if(flagChecked)
     {
-        ui->destroy_schemes->setText("Разобрать схему(on)");
+       // ui->destroy_schemes->setText("Разобрать схему(on)");
     }
     else
     {
-        ui->destroy_schemes->setText("Разобрать схему(off)");
+        //ui->destroy_schemes->setText("Разобрать схему(off)");
     }
 }
 //------------------------------------------------------------------------------
@@ -521,6 +572,45 @@ void MainWindow::onSlaveAnswer(answer_request_t answer)
 {
     if (getRequestType(answer.func) == REQ_READ)
     {
+        switch (_numCmd) {
+        case DATAS_READ_HZ::DI:
+            ui->checkBox_DI1->setChecked(answer.data[0] & 1);
+            ui->checkBox_DI2->setChecked(answer.data[0] & 1 << 1);
+            ui->checkBox_DI3->setChecked(answer.data[0] & 1 << 2);
+            ui->checkBox_DI4->setChecked(answer.data[0] & 1 << 3);
+            ui->checkBox_DI5->setChecked(answer.data[0] & 1 << 4);
+            ui->checkBox_DI6->setChecked(answer.data[0] & 1 << 5);
+            ui->checkBox_DI7->setChecked(answer.data[0] & 1 << 6);
+            ui->checkBox_DI8->setChecked(answer.data[0] & 1 << 7);
+
+            break;
+        case DATAS_READ_HZ::AI:
+            ui->label_ADCInA0_val->setText(QString::number(answer.data[0]));
+            ui->label_ADCInA1_val->setText(QString::number(answer.data[1]));
+            ui->label_ADCInA2_val->setText(QString::number(answer.data[2]));
+            ui->label_ADCInA3_val->setText(QString::number(answer.data[3]));
+            ui->label_ADCInA4_val->setText(QString::number(answer.data[4]));
+            ui->label_ADCInA5_val->setText(QString::number(answer.data[5]));
+
+
+            ui->label_ADCInB0_val->setText(QString::number(answer.data[6]));
+            ui->label_ADCInB1_val->setText(QString::number(answer.data[7]));
+            ui->label_ADCInB2_val->setText(QString::number(answer.data[8]));
+            ui->label_ADCInB3_val->setText(QString::number(answer.data[9]));
+            ui->label_ADCInB4_val->setText(QString::number(answer.data[10]));
+            ui->label_ADCInB5_val->setText(QString::number(answer.data[11]));
+            break;
+        case DATAS_READ_HZ::DI_ERROR:
+            ui->checkBox->setChecked(answer.data[0] & 1);
+            ui->checkBox_2->setChecked(answer.data[0] & 1 << 1);
+            ui->checkBox_3->setChecked(answer.data[0] & 1 << 2);
+            ui->checkBox_4->setChecked(answer.data[0] & 1 << 3);
+            ui->checkBox_5->setChecked(answer.data[0] & 1 << 4);
+            ui->checkBox_6->setChecked(answer.data[0] & 1 << 5);
+            break;
+        default:
+            break;
+        }
         // Put received data into data table
         for (int i = 0; i < answer.count; i++)
         {
@@ -529,11 +619,11 @@ void MainWindow::onSlaveAnswer(answer_request_t answer)
 
             if(index == 0)
             {
-                ui->speed_val->setText(QString::number(answer.data[i]));
+                //ui->speed_val->setText(QString::number(answer.data[i]));
             }
             if(index == 1)
             {
-                ui->power_val_2->setText(QString::number(answer.data[i]));
+             //   ui->power_val_2->setText(QString::number(answer.data[i]));
             }
         }
     }
@@ -673,8 +763,52 @@ void MainWindow::sendCoil(int num, bool &flag)
 
         // Mark button as stop button
         ui->bSend->setText("Stop");
+    }
+    else
+    {
+        // Reset started flag
+        is_send_started = false;
+    }
+}
 
+void MainWindow::readHolding(int num,int count, MainWindow::DATAS_READ_HZ numCmd)
+{
+    _numCmd = numCmd;
+    // Check connection state
+    if (!master->isConnected())
+    {
+        printMsg("ERROR: Device is not connected");
+        return;
+    }
 
+    // Check sender thread state
+    if (!threadCyclicSend.isRunning())
+    {
+
+        // Set started flag
+        is_send_started = true;
+
+        abstract_request_t tmp;
+        tmp.id = 1;
+        tmp.address = num;
+        tmp.func = QModbusPdu::ReadHoldingRegisters;
+        tmp.count = count;
+        //tmp.data[0] = 1;
+        // Init data sender
+        dataSender.init(false, ui->sbSendInterval->value(), tmp);
+
+        // Move data sender to thread
+        dataSender.moveToThread(&threadCyclicSend);
+
+        // Connect start signal with thread function
+        connect(&threadCyclicSend, &QThread::started,
+                &dataSender, &DataSender::cyclicDataSend);
+
+        // Start sender thread
+        threadCyclicSend.start();
+
+        // Mark button as stop button
+        ui->bSend->setText("Stop");
     }
     else
     {
@@ -742,11 +876,11 @@ void MainWindow::on_dist_contr_released()
     sendCoil(5,flagChecked);
     if(flagChecked)
     {
-        ui->dist_contr->setText("Дистанционное упр(on)");
+     //   ui->dist_contr->setText("Дистанционное упр(on)");
     }
     else
     {
-        ui->dist_contr->setText("Дистанционное упр(off)");
+   //     ui->dist_contr->setText("Дистанционное упр(off)");
     }
 }
 
@@ -761,11 +895,11 @@ void MainWindow::on_local_ctrl_released()
      sendCoil(6,flagChecked);
      if(flagChecked)
      {
-         ui->local_ctrl->setText("Местн упр(on)");
+    //     ui->local_ctrl->setText("Местн упр(on)");
      }
      else
      {
-         ui->local_ctrl->setText("Местн упр(off)");
+   //      ui->local_ctrl->setText("Местн упр(off)");
      }
 
 }
@@ -782,11 +916,11 @@ void MainWindow::on_start_released()
         sendCoil(9,flagChecked);
         if(flagChecked)
     {
-         ui->start->setText("Старт(on)");
+//         ui->start->setText("Старт(on)");
     }
     else
     {
-        ui->start->setText("Старт(off)");
+        //ui->start->setText("Старт(off)");
     }
 }
 
@@ -801,11 +935,11 @@ void MainWindow::on_stop_released()
     sendCoil(10,flagChecked);
     if(flagChecked)
     {
-         ui->stop->setText("Стоп(on)");
+       //  ui->stop->setText("Стоп(on)");
     }
     else
     {
-        ui->stop->setText("Стоп(off)");
+        //ui->stop->setText("Стоп(off)");
     }
 }
 
@@ -937,10 +1071,170 @@ void MainWindow::index_inc_realise()
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-    ui->seted_speed->setText(QString::number(/*ui->horizontalSlider.g)*/value));
+   // ui->seted_speed->setText(QString::number(/*ui->horizontalSlider.g)*/value));
 }
 
 void MainWindow::on_set_new_speed_released()
 {
-    sendHolding(4,ui->horizontalSlider->value());
+   // sendHolding(4,ui->horizontalSlider->value());
+}
+
+void MainWindow::on_checkBox_DO1_clicked(bool checked)
+{
+    bool check = checked == false;
+
+    sendCoil(1,check);
+}
+
+void MainWindow::on_checkBox_DO2_clicked(bool checked)
+{
+    bool check = checked == false;
+
+    sendCoil(2,check);
+}
+
+void MainWindow::on_checkBox_DO3_clicked(bool checked)
+{
+    bool check = checked == false;
+
+    sendCoil(3,check);
+
+}
+
+void MainWindow::on_checkBox_DO4_clicked(bool checked)
+{
+    bool check = checked == false;
+
+    sendCoil(4,check);
+
+}
+
+void MainWindow::on_checkBox_DO5_clicked(bool checked)
+{
+    bool check = checked == false;
+
+    sendCoil(5,check);
+
+}
+
+void MainWindow::on_checkBox_DO6_clicked(bool checked)
+{
+    bool check = checked == false;
+
+    sendCoil(6,check);
+}
+
+void MainWindow::on_checkBox_DO7_clicked(bool checked)
+{
+
+    bool check = checked == false;
+
+    sendCoil(7,check);
+}
+
+void MainWindow::on_checkBox_DO8_clicked(bool checked)
+{
+    bool check = checked == false;
+
+    sendCoil(8,check);
+}
+
+void MainWindow::on_pushButton_readDI_released()
+{
+    readHolding(1,1,DATAS_READ_HZ::DI);
+}
+
+void MainWindow::on_pushButton_readAI_released()
+{
+    readHolding(2,12,DATAS_READ_HZ::AI);
+}
+
+void MainWindow::on_pushButton_pwm1_released()
+{
+    bool check = ui->pushButton_pwm1->isChecked() == false;
+
+    if(ui->pushButton_pwm1->isChecked())
+    {
+        ui->pushButton_pwm1->setText("Отключить ШИМ1");
+    }
+    else
+    {
+        ui->pushButton_pwm1->setText("Втключить ШИМ1");
+    }
+
+    sendCoil(9,check);
+}
+
+void MainWindow::on_pushButton_pwm2_released()
+{
+    bool check = ui->pushButton_pwm2->isChecked() == false;
+
+    if(ui->pushButton_pwm2->isChecked())
+    {
+        ui->pushButton_pwm2->setText("Отключить ШИМ2");
+    }
+    else
+    {
+        ui->pushButton_pwm2->setText("Втключить ШИМ2");
+    }
+
+    sendCoil(10,check);
+}
+
+void MainWindow::on_pushButton_pwm3_released()
+{
+    bool check = ui->pushButton_pwm3->isChecked() == false;
+
+    if(ui->pushButton_pwm3->isChecked())
+    {
+        ui->pushButton_pwm3->setText("Отключить ШИМ3");
+    }
+    else
+    {
+        ui->pushButton_pwm3->setText("Втключить ШИМ3");
+    }
+
+    sendCoil(11,check);
+}
+
+void MainWindow::on_pushButton_pwm4_released()
+{
+    bool check = ui->pushButton_pwm4->isChecked() == false;
+
+    if(ui->pushButton_pwm4->isChecked())
+    {
+        ui->pushButton_pwm4->setText("Отключить ШИМ4");
+    }
+    else
+    {
+        ui->pushButton_pwm4->setText("Втключить ШИМ4");
+    }
+
+    sendCoil(12,check);
+}
+
+void MainWindow::on_horizontalSlider_PWM1_sliderReleased()
+{
+    //qDebug() << QString::number(ui->horizontalSlider_PWM1->value());
+    sendHolding(15,ui->horizontalSlider_PWM1->value());
+}
+
+void MainWindow::on_horizontalSlider_PWM2_sliderReleased()
+{
+    sendHolding(16,ui->horizontalSlider_PWM2->value());
+}
+
+void MainWindow::on_horizontalSlider_PWM3_sliderReleased()
+{
+    sendHolding(17,ui->horizontalSlider_PWM3->value());
+}
+
+void MainWindow::on_horizontalSlider_PWM4_sliderReleased()
+{
+    sendHolding(18,ui->horizontalSlider_PWM4->value());
+}
+
+void MainWindow::on_pushButton_released()
+{
+    readHolding(19,1,DATAS_READ_HZ::DI_ERROR);
 }
