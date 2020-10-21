@@ -108,27 +108,27 @@ void MainWindow::init()
 
     for (it = mb_func.begin(); it != mb_func.end(); ++it)
     {
-        ui->cbFunc->addItem(it.key());
+        //ui->cbFunc->addItem(it.key());
     }
 
     // Tune output data table
-    QTableWidget *table = ui->tableData;
-    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    addTableRow(table);
-    table->horizontalHeader()->setVisible(true);
+    //QTableWidget *table = ui->tableData;
+   // table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  //  addTableRow(table);
+   // table->horizontalHeader()->setVisible(true);
 
-    connect(ui->sbCount, SIGNAL(valueChanged(int)),
-            this, SLOT(changeDataTableRowsCount(int)));
+   /* connect(ui->sbCount, SIGNAL(valueChanged(int)),
+            this, SLOT(changeDataTableRowsCount(int)));*/
 
-    connect(ui->sbAddress, SIGNAL(valueChanged(int)),
-            this, SLOT(changeAddress(int)));
+    /*connect(ui->sbAddress, SIGNAL(valueChanged(int)),
+            this, SLOT(changeAddress(int)));*/
 
-    connect(ui->cbFunc, &QComboBox::currentTextChanged,
-            this, &MainWindow::changedFunc);
+   /* connect(ui->cbFunc, &QComboBox::currentTextChanged,
+            this, &MainWindow::changedFunc);*/
 
-    QString dataType = getDataTypeName(mb_func[ui->cbFunc->currentText()]);
+   // QString dataType = getDataTypeName(mb_func[ui->cbFunc->currentText()]);
 
-    ui->tableData->setItem(0, TAB_DATA_TYPE, new QTableWidgetItem(dataType));
+    //ui->tableData->setItem(0, TAB_DATA_TYPE, new QTableWidgetItem(dataType));
 
     // Modbus master initialization
     master = new Master();
@@ -146,7 +146,7 @@ void MainWindow::init()
             this, &MainWindow::printMsg);
 
     // Send button initialize
-    connect(ui->bSend, &QPushButton::released, this, &MainWindow::sendButtonRelease);
+   // connect(ui->bSend, &QPushButton::released, this, &MainWindow::sendButtonRelease);
 
     qRegisterMetaType<answer_request_t>();
 
@@ -154,15 +154,15 @@ void MainWindow::init()
 
     connect(master, &Master::sendRawData, this, &MainWindow::onRawDataReceive);
 
-    connect(ui->bRawDataClean, &QPushButton::released,
-            this, &MainWindow::onRawDataClean);
+    /*connect(ui->bRawDataClean, &QPushButton::released,
+            this, &MainWindow::onRawDataClean);*/
 
     // Prepare work of data sender
     is_send_started = false;
     is_cyclic = false;
 
-    connect(ui->cCyclicSend, &QCheckBox::stateChanged,
-            this, &MainWindow::checkCyclicSend);
+   /* connect(ui->cCyclicSend, &QCheckBox::stateChanged,
+            this, &MainWindow::checkCyclicSend);*/
 
     connect(&dataSender, &DataSender::sendMasterRequest,
             master, &Master::sendRequest);
@@ -191,7 +191,7 @@ void MainWindow::init()
     index = 0;
 
     ///Прячем ненужное
-    ui->cbParity->hide();
+   /* ui->cbParity->hide();
     ui->label_5->hide();
 
     ui->cbStopBits->hide();
@@ -202,10 +202,10 @@ void MainWindow::init()
     ui->label_3->hide();
 
     ui->cbBaud->hide();
-    ui->label_2->hide();
+    ui->label_2->hide();*/
 
     
-    ui->bSend->hide();
+   /* ui->bSend->hide();
 
     ui->sbCount->hide();
     ui->slaveID_4->hide();
@@ -218,17 +218,17 @@ void MainWindow::init()
     ui->slaveID_2->hide();
 
     ui->sbSlaveID->hide();
-    ui->lSlaveID->hide();
+    ui->lSlaveID->hide();*/
 
     
-    ui->label_7->hide();
+   /* ui->label_7->hide();
     ui->cCyclicSend->hide();
     ui->sbSendInterval->hide();
     ui->slaveID_5->hide();
-    ui->tableData->hide();
-    ui->ptRawData->hide();
-    ui->bRawDataClean->hide();
-    ui->label_6->hide();
+    ui->tableData->hide();*/
+    //ui->ptRawData->hide();
+    //ui->bRawDataClean->hide();
+   // ui->label_6->hide();
     //sizePolicy().Maximum
 }
 
@@ -238,12 +238,19 @@ void MainWindow::init()
 serial_config_t MainWindow::getSerialConfig()
 {
     serial_config_t s_cfg;
-
+   /* portName = "/dev/ttyUSB0";
+    baudrate = 9600;
+    dataBits = 8;
+    stopBits = 1;
+    parity = "None";
+    flowControl = 0;
+    timeout = 50;
+    retries = 1;*/
     s_cfg.portName = ui->cbPort->currentText();
-    s_cfg.baudrate = ui->cbBaud->currentText().toInt();
-    s_cfg.dataBits = ui->cbDataBits->currentText().toInt();
-    s_cfg.stopBits = ui->cbStopBits->currentText().toInt();
-    s_cfg.parity = ui->cbParity->currentText();
+    s_cfg.baudrate = 9600;//ui->cbBaud->currentText().toInt();
+    s_cfg.dataBits = 8;//ui->cbDataBits->currentText().toInt();
+    s_cfg.stopBits = 1;//ui->cbStopBits->currentText().toInt();
+    s_cfg.parity = "None";//ui->cbParity->currentText();
 
     return s_cfg;
 }
@@ -256,9 +263,9 @@ void MainWindow::addTableRow(QTableWidget *table)
     int idx = table->rowCount();
     table->insertRow(table->rowCount());
 
-    int addr = ui->sbAddress->value() + ui->sbCount->value() - 1;
+   // int addr = ui->sbAddress->value() + ui->sbCount->value() - 1;
 
-    table->setItem(idx, TAB_ADDRESS,
+   /* table->setItem(idx, TAB_ADDRESS,
                    new QTableWidgetItem(QString::number(addr)));
 
     table->setItem(idx, TAB_DATA,
@@ -267,7 +274,7 @@ void MainWindow::addTableRow(QTableWidget *table)
     QString dataType = getDataTypeName(mb_func[ui->cbFunc->currentText()]);
 
     table->setItem(idx, TAB_DATA_TYPE,
-                   new QTableWidgetItem(dataType));
+                   new QTableWidgetItem(dataType));*/
 }
 
 //------------------------------------------------------------------------------
@@ -329,12 +336,12 @@ QString MainWindow::getDataTypeName(int mb_func) const
 abstract_request_t *MainWindow::getRequestData()
 {
     // Get function code from user interface
-    quint8 func = static_cast<quint8>(mb_func[ui->cbFunc->currentText()]);
+  //  quint8 func = static_cast<quint8>(mb_func[ui->cbFunc->currentText()]);
     // Check request type (read or write data from slave)
-    RequestType type = getRequestType(func);
+ //   RequestType type = getRequestType(func);
 
     // Process request
-    switch (type)
+ /*   switch (type)
     {
     case REQ_READ:
     {
@@ -357,8 +364,8 @@ abstract_request_t *MainWindow::getRequestData()
         request->count = static_cast<quint16>(ui->sbCount->value());
 
         // Setup data to request data field
-        for (int i = 0; i < request->count; i++)
-            request->data[i] = static_cast<quint16>(ui->tableData->item(i, TAB_DATA)->text().toInt());
+       // for (int i = 0; i < request->count; i++)
+       //     request->data[i] = static_cast<quint16>(ui->tableData->item(i, TAB_DATA)->text().toInt());
 
         return request;
     }
@@ -366,9 +373,9 @@ abstract_request_t *MainWindow::getRequestData()
     default:
 
         statusPrint("ERROR: Unknown requst type");
-
+*/
         return nullptr;
-    }
+   // }
 }
 
 //------------------------------------------------------------------------------
@@ -424,7 +431,7 @@ void MainWindow::onConnectRelease()
 //------------------------------------------------------------------------------
 void MainWindow::onRawDataClean()
 {
-    ui->ptRawData->clear();
+    //ui->ptRawData->clear();
 }
 
 //------------------------------------------------------------------------------
@@ -441,11 +448,11 @@ void MainWindow::statusPrint(QString msg)
 //------------------------------------------------------------------------------
 void MainWindow::changeDataTableRowsCount(int i)
 {
-    if (i > ui->tableData->rowCount())
+   /* if (i > ui->tableData->rowCount())
         addTableRow(ui->tableData);
 
     if (i < ui->tableData->rowCount())
-        delTableRow(ui->tableData);
+        delTableRow(ui->tableData);*/
 }
 
 //------------------------------------------------------------------------------
@@ -454,7 +461,7 @@ void MainWindow::changeDataTableRowsCount(int i)
 void MainWindow::changeAddress(int i)
 {
     // Calculate number of additional data table rows
-    int delta = i - ui->tableData->item(0, TAB_ADDRESS)->text().toInt();
+  /*  int delta = i - ui->tableData->item(0, TAB_ADDRESS)->text().toInt();
 
     // Update all data addresses in table
     for (int j = 0; j < ui->tableData->rowCount(); j++)
@@ -467,7 +474,7 @@ void MainWindow::changeAddress(int i)
         item->setText(QString::number(addr));
 
         ui->tableData->setItem(j, TAB_ADDRESS,item);
-    }
+    }*/
 }
 
 //------------------------------------------------------------------------------
@@ -475,13 +482,13 @@ void MainWindow::changeAddress(int i)
 //------------------------------------------------------------------------------
 void MainWindow::changedFunc(QString text)
 {
-     for (int j = 0; j < ui->tableData->rowCount(); j++)
+   /*  for (int j = 0; j < ui->tableData->rowCount(); j++)
     {
         QString dataType = getDataTypeName(mb_func[text]);
 
         ui->tableData->setItem(j, TAB_DATA_TYPE,
                                new QTableWidgetItem(dataType));
-     }
+     }*/
 }
 
 //------------------------------------------------------------------------------
@@ -503,7 +510,7 @@ void MainWindow::sendButtonRelease()
         is_send_started = true;
 
         // Init data sender
-        dataSender.init(is_cyclic, ui->sbSendInterval->value(), *getRequestData());
+        dataSender.init(is_cyclic, /*ui->sbSendInterval->value()*/1000, *getRequestData());
 
         // Move data sender to thread
         dataSender.moveToThread(&threadCyclicSend);
@@ -516,7 +523,7 @@ void MainWindow::sendButtonRelease()
         threadCyclicSend.start();
 
         // Mark button as stop button
-        ui->bSend->setText("Stop");
+       // ui->bSend->setText("Stop");
     }
     else
     {
@@ -614,8 +621,8 @@ void MainWindow::onSlaveAnswer(answer_request_t answer)
         // Put received data into data table
         for (int i = 0; i < answer.count; i++)
         {
-            ui->tableData->setItem(i, TAB_DATA,
-                                   new QTableWidgetItem(QString::number(answer.data[i])));
+            //ui->tableData->setItem(i, TAB_DATA,
+            //                       new QTableWidgetItem(QString::number(answer.data[i])));
 
             if(index == 0)
             {
@@ -647,7 +654,7 @@ void MainWindow::onRawDataReceive(QByteArray rawData)
         buff += QString("%1 ").arg(tmp, 2, 16, QLatin1Char('0'));
     }    
 
-    ui->ptRawData->appendPlainText(buff);
+    //ui->ptRawData->appendPlainText(buff);
 }
 
 //------------------------------------------------------------------------------
@@ -678,7 +685,7 @@ void MainWindow::updatePortsList()
 //------------------------------------------------------------------------------
 void MainWindow::printMsg(QString msg)
 {
-    ui->ptRawData->appendPlainText(msg);
+    //ui->ptRawData->appendPlainText(msg);
 }
 
 //------------------------------------------------------------------------------
@@ -699,7 +706,7 @@ void MainWindow::onFinishSendThread()
                &dataSender, &DataSender::cyclicDataSend);
 
     // Mark button as send button
-    ui->bSend->setText("Send");
+   // ui->bSend->setText("Send");
 
     // Check close flag
     if (is_close_event)
@@ -749,7 +756,7 @@ void MainWindow::sendCoil(int num, bool &flag)
             flag = false;
         }
         // Init data sender
-        dataSender.init(false, ui->sbSendInterval->value(), tmp);
+        dataSender.init(false, 1000, tmp);
 
         // Move data sender to thread
         dataSender.moveToThread(&threadCyclicSend);
@@ -762,7 +769,7 @@ void MainWindow::sendCoil(int num, bool &flag)
         threadCyclicSend.start();
 
         // Mark button as stop button
-        ui->bSend->setText("Stop");
+     //   ui->bSend->setText("Stop");
     }
     else
     {
@@ -795,7 +802,7 @@ void MainWindow::readHolding(int num,int count, MainWindow::DATAS_READ_HZ numCmd
         tmp.count = count;
         //tmp.data[0] = 1;
         // Init data sender
-        dataSender.init(false, ui->sbSendInterval->value(), tmp);
+        dataSender.init(false, /*ui->sbSendInterval->value()*/1000, tmp);
 
         // Move data sender to thread
         dataSender.moveToThread(&threadCyclicSend);
@@ -808,7 +815,7 @@ void MainWindow::readHolding(int num,int count, MainWindow::DATAS_READ_HZ numCmd
         threadCyclicSend.start();
 
         // Mark button as stop button
-        ui->bSend->setText("Stop");
+      //  ui->bSend->setText("Stop");
     }
     else
     {
@@ -841,7 +848,7 @@ void MainWindow::sendHolding(int num, int data)
         tmp.count = 1;
         tmp.data[0] = data;
         // Init data sender
-        dataSender.init(false, ui->sbSendInterval->value(), tmp);
+        dataSender.init(false, /*ui->sbSendInterval->value()*/ 1000, tmp);
 
         // Move data sender to thread
         dataSender.moveToThread(&threadCyclicSend);
@@ -854,7 +861,7 @@ void MainWindow::sendHolding(int num, int data)
         threadCyclicSend.start();
 
         // Mark button as stop button
-        ui->bSend->setText("Stop");
+       // ui->bSend->setText("Stop");
 
 
     }
@@ -1053,7 +1060,7 @@ void MainWindow::on_update_dat_released()
     request.id = 1;
     request.func = QModbusPdu::ReadHoldingRegisters;
     request.count = 1;
-    dataSender.init(false, ui->sbSendInterval->value(), request);
+    dataSender.init(false,/* ui->sbSendInterval->value()*/1000, request);
     //sendMasterRequest(&request);
     dataSender.cyclicDataSend();
 }
