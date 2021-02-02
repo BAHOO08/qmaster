@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>672</width>
+    <width>775</width>
     <height>385</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>РЧН75 тестер периферии</string>
+   <string>400Гц тестер периферии</string>
   </property>
   <property name="windowIcon">
    <iconset theme=":/img/logo.png">
@@ -76,61 +76,64 @@
             <item>
              <widget class="QLabel" name="label_ADCInA0">
               <property name="text">
-               <string>ADCInA0</string>
+               <string>Ia</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1">
               <property name="text">
-               <string>ADCInA1</string>
+               <string>Ib</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_3">
               <property name="text">
-               <string>ADCInA2</string>
+               <string>Ic</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_4">
               <property name="text">
-               <string>ADCInA3</string>
+               <string>24В</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_5">
               <property name="text">
-               <string>ADCInA4</string>
+               <string>Ua</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_6">
               <property name="text">
-               <string>ADCInA5</string>
+               <string>Ub</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_7">
               <property name="text">
-               <string>ADCInB0</string>
+               <string>Uc</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_8">
               <property name="text">
-               <string>ADCInB1</string>
+               <string>Udc</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_9">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>ADCInB2</string>
               </property>
@@ -138,6 +141,9 @@
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_10">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>ADCInB3</string>
               </property>
@@ -145,6 +151,9 @@
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_11">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>ADCInB4</string>
               </property>
@@ -152,6 +161,9 @@
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInA1_12">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>ADCInB5</string>
               </property>
@@ -219,6 +231,9 @@
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInB2_val">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>ADCInB2</string>
               </property>
@@ -226,6 +241,9 @@
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInB3_val">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>ADCInB3</string>
               </property>
@@ -233,6 +251,9 @@
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInB4_val">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>ADCInB4</string>
               </property>
@@ -240,6 +261,9 @@
             </item>
             <item>
              <widget class="QLabel" name="label_ADCInB5_val">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>ADCInB5</string>
               </property>
@@ -293,49 +317,49 @@
             <item>
              <widget class="QCheckBox" name="checkBox_DO1">
               <property name="text">
-               <string>DO1</string>
+               <string>Предельное отклонение</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DO2">
               <property name="text">
-               <string>DO2</string>
+               <string>Работа</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DO3">
               <property name="text">
-               <string>DO3</string>
+               <string>Контактор заряда</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DO4">
               <property name="text">
-               <string>DO4</string>
+               <string>Контактор силы</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DO5">
               <property name="text">
-               <string>DO5</string>
+               <string>Звук сигнал</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DO6">
               <property name="text">
-               <string>DO6</string>
+               <string>Авария</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DO7">
               <property name="text">
-               <string>DO7</string>
+               <string>вых сигн запрет</string>
               </property>
              </widget>
             </item>
@@ -343,6 +367,9 @@
              <widget class="QCheckBox" name="checkBox_DO8">
               <property name="text">
                <string>DO8</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -352,57 +379,105 @@
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QCheckBox" name="checkBox_DI1">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>DI1</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DI2">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>DI2</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DI3">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>DI3</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DI4">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>DI4</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DI5">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>DI5</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DI6">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>DI6</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DI7">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>DI7</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_DI8">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>DI8</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -412,6 +487,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_readDI">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -420,6 +498,9 @@
           </property>
           <property name="text">
            <string>Прочитать DI</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -607,42 +688,66 @@
           <item>
            <widget class="QCheckBox" name="checkBox">
             <property name="text">
-             <string>Неисправность драйвера</string>
+             <string>Что-то по питанию Gpio26</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_2">
             <property name="text">
-             <string>Неиспр аналоговго ист пит +-5В</string>
+             <string>И тут чтото по питанию Gpio28</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Неиспр цифр ист пит +-5В</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_4">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Неиспр  ист  пит драйверов</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Неиспр  ист  пит платы 24В</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_6">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Неиспр ист питания интерфейсов</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -672,7 +777,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>672</width>
+     <width>775</width>
      <height>20</height>
     </rect>
    </property>
